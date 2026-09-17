@@ -11,7 +11,7 @@ Menambahkan user phantom user di node chisa <br/>
 <img width="503" height="105" alt="Screenshot 2026-09-16 094628" src="https://github.com/user-attachments/assets/bbc61319-3678-4fa9-9f64-cac5d29d4eac" /><br/>
 Setup telnet <br/>
 <img width="812" height="360" alt="Screenshot 2026-09-16 094745" src="https://github.com/user-attachments/assets/b5bd0d19-c99e-400a-a638-0b7a9fbd7690" /><br/>
-Menjalankan telnt di node <br/>
+Menjalankan telnet di node <br/>
 <img width="725" height="682" alt="Screenshot 2026-09-16 094831" src="https://github.com/user-attachments/assets/5da571af-f799-468b-9fd9-85a3cf0b0e15" />
 
 
