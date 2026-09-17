@@ -1,0 +1,14 @@
+POST /login.php HTTP/1.1
+Host: 172.26.7.100:8080
+User-Agent: Fuzz Faster U Fool v2.1.0-dev
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 31
+
+username=test&password=password
+HTTP/1.1 401 Unauthorized
+Server: Apache/2.4.62
+Content-Type: text/html; charset=UTF-8
+Content-Length: 36
+X-Powered-By: PHP/8.3.14
+
+<h1>Error! Invalid credentials.</h1>
