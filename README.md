@@ -149,3 +149,183 @@ Web server: Apache <br/>
 Versi apache: 2.4.62 <br/>
 PHP: 8.3.14 <br/><br/>
 
+#### No. 15
+Eiri menyusup ke ruang server dan memasang perangkat keyboard USB berbahaya pada node Alice. Buka file capture wired_usb_hid.pcap, identifikasi Vendor ID dan Product ID perangkat USB dari deskriptor USB, alamat nomor device USB, serta pesan rahasia yang berhasil dicuri dari keystroke.<br/><br/>
+
+Cari deskriptor device<br/>
+<img width="991" height="202" alt="1  Cari deskriptor device" src="https://github.com/user-attachments/assets/4b23d2fd-3b8d-4a8e-a23c-d32b1e4fa909" /><br/>
+Klik salah satu packet dan cari USB Device Descriptor<br/>
+<img width="682" height="367" alt="2  idVendor idProduct" src="https://github.com/user-attachments/assets/45cce5ac-c578-45ef-aa43-2f1a64cf3aeb" /><br/>
+Vendor ID: 0x046D (Logitech, Inc.)<br/>
+Product ID: 0xC31C (Keyboard K120)<br/><br/>
+Cari alamat nomor device USB<br/>
+<img width="1055" height="935" alt="3  Cari alamat no device usb" src="https://github.com/user-attachments/assets/64fe5f86-71fd-4816-9e34-e6a3b8dbeef6" /><br/>
+Isolasi traffic interrupt<br/>
+<img width="870" height="940" alt="4  Isolasi traffic interrupt" src="https://github.com/user-attachments/assets/6fa4c501-09e0-4344-bf43-0f9b58e3e34a" /><br/>
+Ambil payload data<br/>
+<img width="870" height="948" alt="5  Ambil payload data" src="https://github.com/user-attachments/assets/5b109f68-8ccc-4dae-82f3-fc320e1991a7" /><br/>
+Klik salah satu packet dan lihat<br/>
+<img width="908" height="826" alt="6  HID" src="https://github.com/user-attachments/assets/f866586b-2634-4fc4-8701-f4ce5b2e4645" /><br/>
+Bisa ditemukan ada pola di Leftover Capture Data<br/><br/>
+
+Buka terminal/vscode di folder tempat file .pcap nya<br/>
+Buat decoder menggunakan python<br/>
+```bash
+PS C:\Users\Farrel\Downloads> & "C:\Program Files\Wireshark\tshark.exe" -r soal15_wired_usb_hid.pcap -Y "usb.capdata" -T fields -e usb.capdata | Out-File -Encoding ASCII hid_data.txt
+PS C:\Users\Farrel\Downloads> notepad decode.py
+```
+
+buat decode.py <br/>
+```bash
+keyboard_map = {
+    0x04: ('a', 'A'), 0x05: ('b', 'B'), 0x06: ('c', 'C'), 0x07: ('d', 'D'), 0x08: ('e', 'E'),
+    0x09: ('f', 'F'), 0x0a: ('g', 'G'), 0x0b: ('h', 'H'), 0x0c: ('i', 'I'), 0x0d: ('j', 'J'),
+    0x0e: ('k', 'K'), 0x0f: ('l', 'L'), 0x10: ('m', 'M'), 0x11: ('n', 'N'), 0x12: ('o', 'O'),
+    0x13: ('p', 'P'), 0x14: ('q', 'Q'), 0x15: ('r', 'R'), 0x16: ('s', 'S'), 0x17: ('t', 'T'),
+    0x18: ('u', 'U'), 0x19: ('v', 'V'), 0x1a: ('w', 'W'), 0x1b: ('x', 'X'), 0x1c: ('y', 'Y'),
+    0x1d: ('z', 'Z'), 0x1e: ('1', '!'), 0x1f: ('2', '@'), 0x20: ('3', '#'), 0x21: ('4', '$'),
+    0x22: ('5', '%'), 0x23: ('6', '^'), 0x24: ('7', '&'), 0x25: ('8', '*'), 0x26: ('9', '('),
+    0x27: ('0', ')'), 0x28: ('\n', '\n'), 0x2a: ('[BACKSPACE]', '[BACKSPACE]'), 0x2b: ('\t', '\t'),
+    0x2c: (' ', ' '), 0x2d: ('-', '_'), 0x2e: ('=', '+'), 0x2f: ('[', '{'), 0x30: (']', '}'),
+    0x31: ('\\', '|'), 0x33: (';', ':'), 0x34: ('\'', '"'), 0x35: ('`', '~'), 0x36: (',', '<'),
+    0x37: ('.', '>'), 0x38: ('/', '?')
+}
+
+try:
+    with open("hid_data.txt", "r") as f:
+        lines = f.readlines()
+
+    output = ""
+    for line in lines:
+        line = line.strip()
+        # Mengabaikan baris kosong atau format yang tidak sesuai
+        if not line or len(line) < 16: 
+            continue
+        
+        # Ekstrak Modifier (Byte 1) dan Keycode (Byte 3)
+        modifier = int(line[0:2], 16)
+        keycode = int(line[4:6], 16)
+        
+        # Skip jika tidak ada tombol ditekan (00)
+        if keycode == 0:
+            continue
+            
+        # Cek apakah Left Shift (02) atau Right Shift (20) sedang ditekan
+        is_shift = (modifier == 0x02) or (modifier == 0x20)
+        
+        if keycode in keyboard_map:
+            # Memilih index 0 untuk lowercase, index 1 untuk uppercase
+            output += keyboard_map[keycode][1 if is_shift else 0]
+
+    print("\nHasil Decode:\n")
+    print(output)
+    print("\n")
+
+except FileNotFoundError:
+    print("Error: File hid_data.txt tidak ditemukan. Pastikan file ada di folder yang sama.")
+```
+
+buka lagi terminal<br/>
+<img width="561" height="112" alt="Screenshot 2026-09-19 190809" src="https://github.com/user-attachments/assets/799387f0-7189-4fc6-ad04-ad087ff98d77" /><br/>
+Ditemukan pesan rahasianya.<br/><br/>
+
+#### No 16
+Eiri meletakkan file malware di server. Dari file capture wired_ftp_theft.pcap, lakukan analisis lalu lintas FTP untuk mengidentifikasi alamat IP server FTP penyerang, banner software FTP yang digunakan, kredensial login penyerang, serta ukuran (size in bytes) dari file malware knights_payload.exe yang diunduh.<br/><br/>
+
+Isolasi traffic FTP<br/>
+<img width="1080" height="440" alt="1  Isolasi semua traffic TFP" src="https://github.com/user-attachments/assets/8b22c5d2-04e1-4164-b625-2cd2e8d9abe6" /><br/>
+Buka Statistic->Conversation->TCP<br/>
+<img width="1196" height="398" alt="Screenshot 2026-09-19 191521" src="https://github.com/user-attachments/assets/6fb5bdcf-7b67-4d66-803d-bf6917607c30" /><br/>
+Mengambil IP yang paling mencurigakan & isolasi berdasarkan IP tersebut<br/>
+<img width="1917" height="660" alt="2  Isolasi semua FTP penyerang" src="https://github.com/user-attachments/assets/ad919fa1-b2f7-48e0-a328-3bd5a4f0a08e" /><br/>
+Cek banner tiap server
+<img width="1220" height="200" alt="3  Banner software FTP" src="https://github.com/user-attachments/assets/600ee46b-7ff5-473e-a21a-f9a94a4e1c25" /><br/>
+Mencari kredensial login<br/>
+<img width="990" height="237" alt="4  Kredensial login penyerang" src="https://github.com/user-attachments/assets/d3e3a2ec-52c0-448d-ba4c-8bb059d50f47" /><br/>
+Mencari nama file yang terlibat<br/>
+<img width="1020" height="177" alt="5  Mencari nama file yang terlibat" src="https://github.com/user-attachments/assets/f8af1f5d-0af2-45f3-be1e-9c90b321188a" /><br/>
+Mencari ukuran file yang terlibat<br/>
+<img width="1517" height="182" alt="6  Ukuran file knights_payload exe (2)" src="https://github.com/user-attachments/assets/6784a020-29b2-4997-a075-6ec5979198f2" /><br/>
+IP Penyerang: 198.51.100.7 <br/>
+Banner software: vsftpd 3.0.5 <br/>
+Kredensial login penyerang: USER: knights_agent & PASS: N4v1_s3cur3_2026 <br/>
+Ukuran file: 524288 bytes <br/><br/>
+
+#### No 17
+Alice membuat halaman web di node-nya. Eiri memanfaatkan celah untuk mengunduh payload berbahaya ke sistem Alice. Analisis file capture wired_http_c2.pcap untuk mengidentifikasi nama domain (Host) tempat malware diunduh, alamat IP server penyerang, nama file executable malware yang diunduh, serta kode status HTTP yang dikembalikan. <br/><br/>
+
+Isolasi traffic HTTP<br/>
+<img width="970" height="280" alt="1  http" src="https://github.com/user-attachments/assets/4d5227c0-cf65-4f1c-8dcd-48857b40385f" /><br/>
+Cari request "GET"<br/>
+<img width="985" height="227" alt="2  get http" src="https://github.com/user-attachments/assets/7780f14c-be79-41a3-b4f9-0f5e6dcafa51" /><br/>
+Cari header Host di tiap request<br/>
+<img width="973" height="227" alt="3  http host" src="https://github.com/user-attachments/assets/afb4665a-1642-473c-b405-839d5ede9f52" /><br/>
+Cari request yang mengunduh file .exe<br/>
+<img width="972" height="207" alt="4  http contains exe" src="https://github.com/user-attachments/assets/063747ed-c83a-4fd5-b0f4-e3016c18e73b" /><br/>
+IP pengirim: 203.0.113.42 <br/>
+IP penerima: 10.7.113.42 <br/>
+Folder tujuan: /navi_agent.exe <br/>
+Kode status: 200 OK <br/><br/>
+
+#### No 18
+Eiri mengubah taktik penyerangan dengan menanamkan file malware menggunakan protokol file sharing SMB. Analisis file capture wired_smb_transfer.pcapng untuk mengidentifikasi nama protokol jaringan yang dieksploitasi, IP pengirim dan penerima, folder tujuan penyimpanan malware pada sistem korban, serta nama file executable malware yang ditransfer. <br/><br/>
+
+Cek protokol yang dipakai di port 445<br/>
+<img width="1336" height="697" alt="1  Cek protokol di port 445" src="https://github.com/user-attachments/assets/a23314e0-0263-4311-8bd4-de1e6efd7fb8" /><br/>
+Isolasi traffic protokol SMB2
+<img width="1336" height="398" alt="2  Isolasi traffic protokol smb2" src="https://github.com/user-attachments/assets/94b54b64-9ab5-4037-b68b-c89ad29e92be" /><br/>
+Cari nama file yang ditransfer<br/>
+<img width="1340" height="277" alt="4  Cari nama file yang ditransfer" src="https://github.com/user-attachments/assets/4d6721fc-4651-45aa-abd0-0bd28dd8c878" /><br/>
+Protokol Jaringan: SMB2 <br/>
+IP pengirim: 10.7.1.100 <br/>
+IP penerima: 10.7.1.50 <br/>
+Folder tujuan: …\System32\.. <br/>
+Nama file executable: wired_trojan_payload.exe <br/><br/>
+
+#### No 19 
+Eiri meneror jaringan dengan mengirimkan email pemerasan melalui protokol SMTP tanpa enkripsi. Analisis file capture wired_smtp_threat.pcap pada stream TCP terkait, identifikasi alamat email korban yang ditargetkan, password korban yang diklaim bocor oleh penyerang, jenis malware yang diinfeksikan, batas waktu (dalam hari) yang diberikan, serta MailClientID yang tercantum pada pesan. <br/><br/>
+
+Cek traffic SMTP<br/>
+<img width="1492" height="963" alt="Traffic SMTP" src="https://github.com/user-attachments/assets/d28417a5-9712-4f3f-8c10-2e8fb0415666" /><br/>
+Buka Statistic->Conversation->TCP<br/>
+Mengambil IP yang paling mencurigakan & isolasi berdasarkan IP tersebut<br/>
+<img width="1865" height="967" alt="Persempit ke sesi yang mencurigakan" src="https://github.com/user-attachments/assets/3bc718d2-e28b-4fd2-af48-2efe2e545fe2" /><br/>
+ip.addr == 185.234.72.19 && ip.addr == 	203.0.113.100 && smtp <br/>
+<img width="1247" height="1015" alt="FIlter IP penyerang" src="https://github.com/user-attachments/assets/4eb94ebd-edd2-4dbd-b0c2-2649be650074" /><br/>
+Didapatkan:<br/>
+Email korban: victim@protocol7.co.jp<br/>
+Pass korban: pr0tocol_7_user<br/>
+Jenis malware: Ransomware<br/>
+Batas waktu: 72 hours (3 dyas)<br/>
+MailClientID: 7719980706<br/><br/>
+
+#### No 20
+Untuk rencana pamungkasnya, Eiri menyembunyikan komunikasi malware di balik saluran terenkripsi TLS. Namun Alice telah menyediakan file keylog untuk mendekripsi lalu lintas data tersebut. Analisis file capture wired_tls_decrypt.pcapng bersama keyslogfile.txt untuk mengidentifikasi versi protokol TLS yang dinegosiasikan, nama domain (SNI) yang diakses, alamat IP server HTTPS penyerang, User-Agent yang digunakan, serta HTTP request method dan path yang tersembunyi di dalam sesi dekripsi. <br/><br/>
+
+
+Cari SNI<br/>
+<img width="985" height="186" alt="Cari SNI" src="https://github.com/user-attachments/assets/cf15651b-60fb-4c8c-a84d-484eeb91d477" /><br/>
+<img width="1133" height="1015" alt="Isolasi paket ClientHello" src="https://github.com/user-attachments/assets/cb5feb7b-857d-414d-b6e1-4b6c8f4c29e8" /><br/>
+Isolasi Application Data<br/>
+<img width="1182" height="1017" alt="Isolasi Application Data" src="https://github.com/user-attachments/assets/80efb0c7-3f36-42ed-a217-fe8888bc5c45" /><br/>
+Cek versi TLS<br/>
+<img width="831" height="177" alt="Cek versi TLS" src="https://github.com/user-attachments/assets/574f1d0f-2db2-4991-9810-4fa024c54d7e" /><br/>
+Verifikasi Cipher Suite<br/>
+<img width="850" height="187" alt="Cipher suite" src="https://github.com/user-attachments/assets/e8bb3cde-0ac2-47da-b21d-6a5986f66fd9" /><br/>
+Cek ekstensi ALPN<br/>
+<img width="1006" height="207" alt="ALPN" src="https://github.com/user-attachments/assets/66963a9d-2c66-48e4-a800-b8dbc838c945" /><br/>
+Isolasi record APplication Data & cek tab Decrypted TLS<br/>
+<img width="1182" height="1017" alt="Isolasi Application Data" src="https://github.com/user-attachments/assets/86d845f7-597d-4ae2-b777-7eabab0cd2d6" /><br/>
+Isolasi request HTTP<br/>
+<img width="1245" height="1011" alt="HTTP Request" src="https://github.com/user-attachments/assets/13e1e583-b5ca-4f65-aeea-b17230993ac3" /><br/><br/>
+Didapatkan<br/>
+| Temuan | Nilai | Bukti dari Filter |
+|---|---|---|
+| Versi TLS | TLS 1.2 (0x0303) | Paket #5 |
+| Cipher Suite | TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f) | Paket #6 |
+| SNI/Domain | `example.com` | Paket #2, #4 |
+| IP Server | `93.184.216.34` | Paket #8 |
+| ALPN | `http/1.1` | Paket #7 |
+| HTTP Method | `HEAD` | Paket #10 |
+| HTTP Path | `/` | Paket #10 |
+| Host Header | `example.com` | Paket #10 |
