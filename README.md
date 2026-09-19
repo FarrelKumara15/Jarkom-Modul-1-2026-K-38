@@ -83,8 +83,46 @@ Lain memerintahkan agar administrasi jarak jauh menggunakan SSH
 secara aman tanpa password. Install OpenSSH server pada node Knights, buat pasangan kunci SSH (ssh-keygen) pada node Mika untuk user mika_admin, dan konfigurasikan public key authentication (PasswordAuthentication no). Lakukan koneksi SSH dari node Mika ke node Knights, tangkap sesi menggunakan Wireshark, identifikasi paket Protocol Version Exchange dan Key Exchange, serta jelaskan mengapa kredensial tidak terlihat dalam bentuk teks terbuka seperti pada Telnet.
 kredensial tidak terlihat jareba SSH menggunakan enkirpsi berbeda dengan Telnet yang dikirim tanpa enkripsi.<br/><br/>
 
-Setup SSH<br/>
+Setup SSH di node knights<br/>
 <img width="800" height="237" alt="1  setup ssh" src="https://github.com/user-attachments/assets/438cc2c0-7ac9-4056-a3dd-02415787ce81" /><br/>
-<img width="801" height="201" alt="2  setup ssh" src="https://github.com/user-attachments/assets/8d273af5-1728-42d6-93a4-515c4d1a6fbc" />
+Generate SSH Key dan cek apakah sudah nyala<br/>
+<img width="801" height="201" alt="2  setup ssh" src="https://github.com/user-attachments/assets/8d273af5-1728-42d6-93a4-515c4d1a6fbc" /><br/>
+Menambah user<br/>
+<img width="477" height="102" alt="3  menambah user" src="https://github.com/user-attachments/assets/82de85e7-13d5-40fe-b3dc-4f7673a1f8b5" /><br/>
+Verifikasi user tidak locked<br/>
+<img width="477" height="170" alt="4  verifikasi akun tidak locked" src="https://github.com/user-attachments/assets/edd4528b-bee8-4bb1-84ff-8f7dd11ce2e1" /><br/>
+Memasang public key<br/>
+<img width="477" height="52" alt="5  memasang public key ssh kinghts (1)" src="https://github.com/user-attachments/assets/34b91002-7148-4887-8d6b-938da654159a" /><br/>
+<img width="477" height="317" alt="6  menjalankan ssh di mika" src="https://github.com/user-attachments/assets/09046105-47bf-48d6-b932-d0f589c2ccc2" /><br/>
+<img width="477" height="150" alt="image" src="https://github.com/user-attachments/assets/ce647e18-dc4e-41e1-ae95-af86b52ad1bc" /><br/>
+Masukkan SSH-RSA ke /home/mika_admin/.sshauthorized_keys<br/>
+<img width="477" height="150" alt="5  memasang public key ssh knight (2)" src="https://github.com/user-attachments/assets/1e655499-fa42-44f9-9a47-c7161a284627" /><br/>
+<img width="477" height="53" alt="5  memasang public key ssh knight (3)" src="https://github.com/user-attachments/assets/f0a41221-cf6c-47cc-a7d4-1772df754b25" /><br/>
+Hapus "#" di<br/>
+```bash
+PubkeyAuthentication yes
+PasswordAuthentication no
+```
+
+Menjalankan SSHD<br/>
+<img width="477" height="150" alt="7  menjalankan sshd" src="https://github.com/user-attachments/assets/bfb58d1a-9e9d-4393-bc3b-290a07bdb122" /><br/>
+Buka wireshark untuk menangkap sesi lalu login dari node mika<br/>
+<img width="477" height="510" alt="8  menjalankan ssh di mika" src="https://github.com/user-attachments/assets/6b69c6fa-c155-4d48-844e-331c7481727b" /><br/><br/>
+
+<img width="1397" height="642" alt="new keys   encrypted packet" src="https://github.com/user-attachments/assets/f8f1889e-0df7-43f5-a31d-53a36dd028be" /><br/>
+Kredensial tidak terlihat jareba SSH menggunakan enkirpsi berbeda dengan Telnet yang dikirim tanpa enkripsi. <br/><br/>
+
+#### No 14
+Setelah gagal mengakses FTP, Eiri melancarkan serangan brute-force terhadap form login web Alice. Analisis file capture wired_bruteforce.pcapng untuk mengidentifikasi alamat IP penyerang, target IP beserta port yang diserang, password user lain_admin yang berhasil ditembus, serta web server software dan versi yang dilaporkan pada response header. Validasi temuan kalian pada socket server:
+<br/><br/>
+
+Cek traffic HTTP<br/>
+<img width="528" height="485" alt="HTTP" src="https://github.com/user-attachments/assets/ddcfd551-6f60-4c3b-a6b6-f88bf78f68ab" /><br/>
+Cek percobaan Login dan IP Destination nya 172.26.7.100<br/>
+<img width="1120" height="1022" alt="Mencari request login" src="https://github.com/user-attachments/assets/281d1afc-5259-4365-bb21-43467beee718" /><br/>
+Cek paket response<br/>
+<img width="1120" height="880" alt="image" src="https://github.com/user-attachments/assets/619fee1b-0d52-46a4-af5e-4e93da829b0e" /><br/>
+
+
 
 
