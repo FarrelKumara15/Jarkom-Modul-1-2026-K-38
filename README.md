@@ -122,7 +122,30 @@ Cek percobaan Login dan IP Destination nya 172.26.7.100<br/>
 <img width="1120" height="1022" alt="Mencari request login" src="https://github.com/user-attachments/assets/281d1afc-5259-4365-bb21-43467beee718" /><br/>
 Cek paket response<br/>
 <img width="1120" height="880" alt="image" src="https://github.com/user-attachments/assets/619fee1b-0d52-46a4-af5e-4e93da829b0e" /><br/>
+Klik salah satu paket lalu Follow->HTTP Stream<br/>
+```bash
+POST /login.php HTTP/1.1
+Host: 172.26.7.100:8080
+User-Agent: Fuzz Faster U Fool v2.1.0-dev
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 45
 
+username=lain_admin&password=wired_pr0tocol_7
+HTTP/1.1 200 OK
+Server: Apache/2.4.62
+Content-Type: text/html; charset=UTF-8
+Content-Length: 35
+X-Powered-By: PHP/8.3.14
 
+<h1>Success! Login successful.</h1>
+```
 
+Ip penyerang: 172.26.7.50 <br/>
+Ip target: 172.26.7.100 <br/>
+Port target:8080 <br/>
+Username: lain_admin <br/>
+Password: wired_pr0tocol_7 <br/>
+Web server: Apache <br/>
+Versi apache: 2.4.62 <br/>
+PHP: 8.3.14 <br/><br/>
 
