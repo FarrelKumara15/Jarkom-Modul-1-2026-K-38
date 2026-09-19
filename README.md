@@ -5,7 +5,7 @@
 |---|---|
 |Farrel Arteya Kumara | 5027251020|
 |Nayla Arsha Adyuta | 5027251042|
-
+ 
 <br/>
 
 ##### No. 11
@@ -48,3 +48,15 @@ r
 Password: 
 wired_ghost
 ```
+
+Karakter yang terkirim dalam paket TCP terpisah karena sesi konsol jarak jauh (seperti Telnet atau SSH) beroperasi dalam Character Mode (Mode Karakter) atau mode interaktif. <br/><br/>
+
+#### No 12
+Alice mencurigai Knights menjalankan beberapa layanan rahasia di node-nya. Lakukan pemindaian port dari node Alice ke node Knights menggunakan Netcat (nc) untuk memeriksa port 22 (SSH) dan 80 (HTTP) dalam keadaan terbuka, serta port rahasia 7777 dalam keadaan tertutup. Analisis di Wireshark perbedaan TCP Flag yang dikembalikan antara port terbuka (SYN-ACK) dengan port tertutup (RST-ACK).
+<br/><br/>
+
+
+
+
+
+
