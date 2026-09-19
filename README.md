@@ -147,7 +147,10 @@ Username: lain_admin <br/>
 Password: wired_pr0tocol_7 <br/>
 Web server: Apache <br/>
 Versi apache: 2.4.62 <br/>
-PHP: 8.3.14 <br/><br/>
+PHP: 8.3.14 <br/>
+
+#### Revisi
+<img width="923" height="47" alt="image" src="https://github.com/user-attachments/assets/0a7be10e-56fd-4cec-a602-60bb6cc7dbd0" /><br/><br/>
 
 #### No. 15
 Eiri menyusup ke ruang server dan memasang perangkat keyboard USB berbahaya pada node Alice. Buka file capture wired_usb_hid.pcap, identifikasi Vendor ID dan Product ID perangkat USB dari deskriptor USB, alamat nomor device USB, serta pesan rahasia yang berhasil dicuri dari keystroke.<br/><br/>
@@ -227,7 +230,10 @@ except FileNotFoundError:
 
 buka lagi terminal<br/>
 <img width="561" height="112" alt="Screenshot 2026-09-19 190809" src="https://github.com/user-attachments/assets/799387f0-7189-4fc6-ad04-ad087ff98d77" /><br/>
-Ditemukan pesan rahasianya.<br/><br/>
+Ditemukan pesan rahasianya.<br/>
+
+# Revisi
+<img width="927" height="46" alt="image" src="https://github.com/user-attachments/assets/b5c07642-8a56-4ac1-bb36-b47c93205811" /><br/><br/>
 
 #### No 16
 Eiri meletakkan file malware di server. Dari file capture wired_ftp_theft.pcap, lakukan analisis lalu lintas FTP untuk mengidentifikasi alamat IP server FTP penyerang, banner software FTP yang digunakan, kredensial login penyerang, serta ukuran (size in bytes) dari file malware knights_payload.exe yang diunduh.<br/><br/>
@@ -251,6 +257,9 @@ Banner software: vsftpd 3.0.5 <br/>
 Kredensial login penyerang: USER: knights_agent & PASS: N4v1_s3cur3_2026 <br/>
 Ukuran file: 524288 bytes <br/><br/>
 
+#### Revisi
+<img width="927" height="51" alt="image" src="https://github.com/user-attachments/assets/d8036832-0992-4602-88e6-09a6ad857ecb" /><br/><br/>
+
 #### No 17
 Alice membuat halaman web di node-nya. Eiri memanfaatkan celah untuk mengunduh payload berbahaya ke sistem Alice. Analisis file capture wired_http_c2.pcap untuk mengidentifikasi nama domain (Host) tempat malware diunduh, alamat IP server penyerang, nama file executable malware yang diunduh, serta kode status HTTP yang dikembalikan. <br/><br/>
 
@@ -267,6 +276,9 @@ IP penerima: 10.7.113.42 <br/>
 Folder tujuan: /navi_agent.exe <br/>
 Kode status: 200 OK <br/><br/>
 
+#### Revisi
+<img width="918" height="47" alt="image" src="https://github.com/user-attachments/assets/6aae1bb5-65c8-48d2-b1b6-96863b853ae8" /><br/><br/>
+
 #### No 18
 Eiri mengubah taktik penyerangan dengan menanamkan file malware menggunakan protokol file sharing SMB. Analisis file capture wired_smb_transfer.pcapng untuk mengidentifikasi nama protokol jaringan yang dieksploitasi, IP pengirim dan penerima, folder tujuan penyimpanan malware pada sistem korban, serta nama file executable malware yang ditransfer. <br/><br/>
 
@@ -281,6 +293,9 @@ IP pengirim: 10.7.1.100 <br/>
 IP penerima: 10.7.1.50 <br/>
 Folder tujuan: …\System32\.. <br/>
 Nama file executable: wired_trojan_payload.exe <br/><br/>
+
+#### Revisi
+<img width="922" height="50" alt="image" src="https://github.com/user-attachments/assets/90822b00-2b39-44ee-95a2-b79ba61b3b04" /><br/<br/>
 
 #### No 19 
 Eiri meneror jaringan dengan mengirimkan email pemerasan melalui protokol SMTP tanpa enkripsi. Analisis file capture wired_smtp_threat.pcap pada stream TCP terkait, identifikasi alamat email korban yang ditargetkan, password korban yang diklaim bocor oleh penyerang, jenis malware yang diinfeksikan, batas waktu (dalam hari) yang diberikan, serta MailClientID yang tercantum pada pesan. <br/><br/>
@@ -298,6 +313,9 @@ Pass korban: pr0tocol_7_user<br/>
 Jenis malware: Ransomware<br/>
 Batas waktu: 72 hours (3 dyas)<br/>
 MailClientID: 7719980706<br/><br/>
+
+#### Revisi
+<img width="920" height="50" alt="image" src="https://github.com/user-attachments/assets/933d3409-45ab-401f-8d84-11c86985fc55" /><br/><br/>
 
 #### No 20
 Untuk rencana pamungkasnya, Eiri menyembunyikan komunikasi malware di balik saluran terenkripsi TLS. Namun Alice telah menyediakan file keylog untuk mendekripsi lalu lintas data tersebut. Analisis file capture wired_tls_decrypt.pcapng bersama keyslogfile.txt untuk mengidentifikasi versi protokol TLS yang dinegosiasikan, nama domain (SNI) yang diakses, alamat IP server HTTPS penyerang, User-Agent yang digunakan, serta HTTP request method dan path yang tersembunyi di dalam sesi dekripsi. <br/><br/>
@@ -322,10 +340,13 @@ Didapatkan<br/>
 | Temuan | Nilai | Bukti dari Filter |
 |---|---|---|
 | Versi TLS | TLS 1.2 (0x0303) | Paket #5 |
-| Cipher Suite | TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f) | Paket #6 |
 | SNI/Domain | `example.com` | Paket #2, #4 |
 | IP Server | `93.184.216.34` | Paket #8 |
 | ALPN | `http/1.1` | Paket #7 |
 | HTTP Method | `HEAD` | Paket #10 |
 | HTTP Path | `/` | Paket #10 |
 | Host Header | `example.com` | Paket #10 |
+
+<br/><br/>
+#### Revisi
+<img width="920" height="52" alt="image" src="https://github.com/user-attachments/assets/df5b7d34-365e-4712-a2f8-4386d6b5fc13" />
