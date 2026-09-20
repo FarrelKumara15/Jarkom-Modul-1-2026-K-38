@@ -359,7 +359,7 @@ Isolasi request HTTP<br/>
 <img width="1245" height="1011" alt="HTTP Request" src="https://github.com/user-attachments/assets/13e1e583-b5ca-4f65-aeea-b17230993ac3" /><br/><br/>
 Didapatkan<br/>
 
-| Temuan | Nilai | 
+| Temuan | Teridentifikasi | 
 |---|---|
 | Versi TLS | TLS 1.2 (0x0303) | 
 | SNI/Domain | `example.com` | 
