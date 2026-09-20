@@ -83,7 +83,7 @@ Setelah konfigurasi dijalankan di tiap node dengan `ifup eth0`/`ifup eth1` dst (
 
 #### Output
 
-![](image.png)
+![](lapres1-10/image.png)
 
 ---
 
@@ -100,7 +100,7 @@ eth0 dibiarkan mendapat IP otomatis dari DHCP jaringan luar, sehingga router lan
 
 #### Output
 
-![](image-1.png)
+![](lapres1-10/image-1.png)
 
 ---
 
@@ -116,21 +116,21 @@ ping -c 2 <IP_tujuan>
 
 #### Output
 
-![](image-2.png)
+![](lapres1-10/image-2.png)
 
 #### Revisi
 
 Saat mencoba melakukan ping dari Alice ke IP address Eiri (192.230.3.2) yang berada di subnet lain, ping gagal. Hal ini terjadi karena adanya kesalahan konfigurasi pada client Eiri, yaitu belum ditambahkannya konfigurasi auto eth0.
 
-![](image-3.png)
+![](lapres1-10/image-3.png)
 
 Setelah dilakukan revisi dengan menambahkan auto eth0 pada konfigurasi Eiri, ping dari Alice ke Eiri (192.230.3.2) berhasil. Ini membuktikan bahwa masalah sebelumnya memang berasal dari konfigurasi interface Eiri, bukan dari routing atau router.
 
-![](image-3.2.png)
+![](lapres1-10/image-3.2.png)
 
 Hal yang sama juga berlaku apabila ping dilakukan dari client lain. Setelah eth0 pada Eiri dikonfigurasi, client lain seperti Chisa ataupun yang lainnya juga dapat melakukan ping ke Eiri (192.230.3.2) dengan berhasil.
 
-![](image-3.3.png)
+![](lapres1-10/image-3.3.png)
 
 ---
 
@@ -176,7 +176,7 @@ Baris `up echo "nameserver 8.8.8.8" > /etc/resolv.conf` adalah bagian dari `/etc
 
 #### Output
 
-![](image-4.png)
+![](lapres1-10/image-4.png)
 
 ---
 
@@ -211,7 +211,7 @@ Jadi begitu router Lain nyala ulang, `router.sh` langsung menerapkan ulang atura
 
 #### Output
 
-![](image-5.png)
+![](lapres1-10/image-5.png)
 
 ---
 
@@ -278,7 +278,7 @@ Dari hasil filter, terlihat paket-paket DNS query/response ke domain-domain yang
 
 #### Output
 
-![](image-6.png)
+![](lapres1-10/image-6.png)
 
 #### Analisis
 
@@ -399,7 +399,7 @@ Hasil testing pakai lftp menunjukkan user alice bisa melakukan put, get, dan ls 
 
 #### Output
 
-![](image-7.png)
+![](lapres1-10/image-7.png)
 
 ---
 
@@ -428,11 +428,11 @@ Jawaban soal: perintah FTP untuk upload adalah **`STOR`**, kode status sukses se
 
 #### Output
 
-![](image-8.png)
+![](lapres1-10/image-8.png)
 
-![](image-8.2.png)
+![](lapres1-10/image-8.2.png)
 
-![](image-8.3.png)
+![](lapres1-10/image-8.3.png)
 
 ---
 
@@ -455,7 +455,7 @@ Terbukti mika bisa `get` file `protocol7_manifesto.txt` dengan sukses, tapi kena
 
 #### Output
 
-![](image-9.png)
+![](lapres1-10/image-9.png)
 
 ---
 
@@ -478,8 +478,8 @@ Tidak ada packet loss dan RTT stabil, artinya koneksi The Wired antara Knights d
 
 #### Output
 
-![](image-10.png)
-![](image-11.png)
+![](lapres1-10/image-10.png)
+![](lapres1-10/image-11.png)
 
 ---
 
@@ -488,10 +488,11 @@ Tidak ada packet loss dan RTT stabil, artinya koneksi The Wired antara Knights d
 - Kesusahan saat mengkonfigurasi nomor 7
 - Lupa mencatat dan ss setiap langkah dan soal yang dikerjakan
 - Terdapat kekeliruan pada konfigurasi Eiri, yaitu belum ditambahkannya `auto eth0` (kemungkinan lupa ditambahkan atau terhapus)
- 
+
 <br/>
 
 ##### No. 11
+
 Buktikan kelemahan protokol Telnet dengan membuat akun phantom_user dan password wired_ghost pada layanan telnetd di node Chisa. Lakukan login Telnet dari node Eiri ke node Chisa dan tangkap sesi menggunakan Wireshark. Tunjukkan kredensial plain text melalui fitur Follow TCP Stream, serta jelaskan mengapa setiap karakter terkirim dalam paket TCP terpisah. <br/><br/>
 
 Menambahkan user phantom user di node chisa <br/>
@@ -504,7 +505,7 @@ Menjalankan telnet di node <br/>
 Kredensial Plain Text: <br/>
 
 ```bash
-chisa login: 
+chisa login:
 p
 p
 han
@@ -528,13 +529,14 @@ r
 
 
 
-Password: 
+Password:
 wired_ghost
 ```
 
 Karakter yang terkirim dalam paket TCP terpisah karena sesi konsol jarak jauh (seperti Telnet atau SSH) beroperasi dalam Character Mode (Mode Karakter) atau mode interaktif. <br/><br/>
 
 #### Revisi
+
 Ternyata IP node eiri tertukar dengan node knights <br/>
 Tukar dengan mengedit /etc/network/interfaces<br/>
 Node eiri<br/>
@@ -542,6 +544,7 @@ Node eiri<br/>
 Node knights<br/>
 <img width="722" height="555" alt="image" src="https://github.com/user-attachments/assets/8a91edfb-9388-46fb-bc6d-2a8060502478" /><br/>
 Setelah mengedit interfaces, jalankan ini di kedua node tersebut<br/>
+
 ```bash
 ifdown eth0
 ifup eth0
@@ -549,8 +552,8 @@ ifup eth0
 
 <br/><br/>
 
-
 #### No 12
+
 Alice mencurigai Knights menjalankan beberapa layanan rahasia di node-nya. Lakukan pemindaian port dari node Alice ke node Knights menggunakan Netcat (nc) untuk memeriksa port 22 (SSH) dan 80 (HTTP) dalam keadaan terbuka, serta port rahasia 7777 dalam keadaan tertutup. Analisis di Wireshark perbedaan TCP Flag yang dikembalikan antara port terbuka (SYN-ACK) dengan port tertutup (RST-ACK).<br/><br/>
 
 Menyalakan port 22 dan 80 di node knights <br/>
@@ -558,6 +561,7 @@ Menyalakan port 22 dan 80 di node knights <br/>
 <img width="265" height="42" alt="2  Menyalakan port 80" src="https://github.com/user-attachments/assets/4a173950-ac2e-4bd0-8703-ac776cdd4aaa" /><br/><br/>
 
 Cek IP node knights menggunakan, <br/>
+
 ```bash
 ip a
 ```
@@ -570,14 +574,16 @@ Hasil scan port <br/>
 <img width="1697" height="57" alt="port 80" src="https://github.com/user-attachments/assets/7a4447d3-bb20-481b-a8eb-975f6508ca5b" /><br/>
 <img width="1572" height="37" alt="port 7777" src="https://github.com/user-attachments/assets/72e15de2-cb5c-448f-a9d8-908389cce29c" /><br/><br/>
 
-|Port|Status|Paket 1 (Alice->Knights)|Paket 2 (Alice->Knights)|Lanjut|
-|---|---|---|---|---|
-|22|Open|SYN|SYN,ACK|Ya|
-|80|Open|SYN|SYN,ACK|Ya|
-7777|Closed|SYN|RST,ACK|Tidak|
+| Port | Status | Paket 1 (Alice->Knights) | Paket 2 (Alice->Knights) | Lanjut |
+| ---- | ------ | ------------------------ | ------------------------ | ------ |
+| 22   | Open   | SYN                      | SYN,ACK                  | Ya     |
+| 80   | Open   | SYN                      | SYN,ACK                  | Ya     |
+| 7777 | Closed | SYN                      | RST,ACK                  | Tidak  |
 
 <br/><br/>
+
 #### No 13
+
 Lain memerintahkan agar administrasi jarak jauh menggunakan SSH
 secara aman tanpa password. Install OpenSSH server pada node Knights, buat pasangan kunci SSH (ssh-keygen) pada node Mika untuk user mika_admin, dan konfigurasikan public key authentication (PasswordAuthentication no). Lakukan koneksi SSH dari node Mika ke node Knights, tangkap sesi menggunakan Wireshark, identifikasi paket Protocol Version Exchange dan Key Exchange, serta jelaskan mengapa kredensial tidak terlihat dalam bentuk teks terbuka seperti pada Telnet.
 kredensial tidak terlihat jareba SSH menggunakan enkirpsi berbeda dengan Telnet yang dikirim tanpa enkripsi.<br/><br/>
@@ -598,6 +604,7 @@ Masukkan SSH-RSA ke /home/mika_admin/.sshauthorized_keys<br/>
 <img width="477" height="150" alt="5  memasang public key ssh knight (2)" src="https://github.com/user-attachments/assets/1e655499-fa42-44f9-9a47-c7161a284627" /><br/>
 <img width="477" height="53" alt="5  memasang public key ssh knight (3)" src="https://github.com/user-attachments/assets/f0a41221-cf6c-47cc-a7d4-1772df754b25" /><br/>
 Hapus "#" di<br/>
+
 ```bash
 PubkeyAuthentication yes
 PasswordAuthentication no
@@ -612,11 +619,13 @@ Buka wireshark untuk menangkap sesi lalu login dari node mika<br/>
 Kredensial tidak terlihat jareba SSH menggunakan enkirpsi berbeda dengan Telnet yang dikirim tanpa enkripsi. <br/><br/>
 
 #### Revisi
+
 Tidak ada, sudah bisa berjalan dengan revisi No 12
 
 <br/><br/>
 
 #### No 14
+
 Setelah gagal mengakses FTP, Eiri melancarkan serangan brute-force terhadap form login web Alice. Analisis file capture wired_bruteforce.pcapng untuk mengidentifikasi alamat IP penyerang, target IP beserta port yang diserang, password user lain_admin yang berhasil ditembus, serta web server software dan versi yang dilaporkan pada response header. Validasi temuan kalian pada socket server:
 <br/><br/>
 
@@ -627,6 +636,7 @@ Cek percobaan Login dan IP Destination nya 172.26.7.100<br/>
 Cek paket response<br/>
 <img width="1120" height="880" alt="image" src="https://github.com/user-attachments/assets/619fee1b-0d52-46a4-af5e-4e93da829b0e" /><br/>
 Klik salah satu paket lalu Follow->HTTP Stream<br/>
+
 ```bash
 POST /login.php HTTP/1.1
 Host: 172.26.7.100:8080
@@ -654,9 +664,11 @@ Versi apache: 2.4.62 <br/>
 PHP: 8.3.14 <br/>
 
 #### Revisi
+
 <img width="923" height="47" alt="image" src="https://github.com/user-attachments/assets/0a7be10e-56fd-4cec-a602-60bb6cc7dbd0" /><br/><br/>
 
 #### No. 15
+
 Eiri menyusup ke ruang server dan memasang perangkat keyboard USB berbahaya pada node Alice. Buka file capture wired_usb_hid.pcap, identifikasi Vendor ID dan Product ID perangkat USB dari deskriptor USB, alamat nomor device USB, serta pesan rahasia yang berhasil dicuri dari keystroke.<br/><br/>
 
 Cari deskriptor device<br/>
@@ -677,12 +689,14 @@ Bisa ditemukan ada pola di Leftover Capture Data<br/><br/>
 
 Buka terminal/vscode di folder tempat file .pcap nya<br/>
 Buat decoder menggunakan python<br/>
+
 ```bash
 PS C:\Users\Farrel\Downloads> & "C:\Program Files\Wireshark\tshark.exe" -r soal15_wired_usb_hid.pcap -Y "usb.capdata" -T fields -e usb.capdata | Out-File -Encoding ASCII hid_data.txt
 PS C:\Users\Farrel\Downloads> notepad decode.py
 ```
 
 buat decode.py <br/>
+
 ```bash
 keyboard_map = {
     0x04: ('a', 'A'), 0x05: ('b', 'B'), 0x06: ('c', 'C'), 0x07: ('d', 'D'), 0x08: ('e', 'E'),
@@ -706,20 +720,20 @@ try:
     for line in lines:
         line = line.strip()
         # Mengabaikan baris kosong atau format yang tidak sesuai
-        if not line or len(line) < 16: 
+        if not line or len(line) < 16:
             continue
-        
+
         # Ekstrak Modifier (Byte 1) dan Keycode (Byte 3)
         modifier = int(line[0:2], 16)
         keycode = int(line[4:6], 16)
-        
+
         # Skip jika tidak ada tombol ditekan (00)
         if keycode == 0:
             continue
-            
+
         # Cek apakah Left Shift (02) atau Right Shift (20) sedang ditekan
         is_shift = (modifier == 0x02) or (modifier == 0x20)
-        
+
         if keycode in keyboard_map:
             # Memilih index 0 untuk lowercase, index 1 untuk uppercase
             output += keyboard_map[keycode][1 if is_shift else 0]
@@ -737,9 +751,11 @@ buka lagi terminal<br/>
 Ditemukan pesan rahasianya.<br/>
 
 # Revisi
+
 <img width="927" height="46" alt="image" src="https://github.com/user-attachments/assets/b5c07642-8a56-4ac1-bb36-b47c93205811" /><br/><br/>
 
 #### No 16
+
 Eiri meletakkan file malware di server. Dari file capture wired_ftp_theft.pcap, lakukan analisis lalu lintas FTP untuk mengidentifikasi alamat IP server FTP penyerang, banner software FTP yang digunakan, kredensial login penyerang, serta ukuran (size in bytes) dari file malware knights_payload.exe yang diunduh.<br/><br/>
 
 Isolasi traffic FTP<br/>
@@ -762,9 +778,11 @@ Kredensial login penyerang: USER: knights_agent / PASS: N4v1_s3cur3_2026 <br/>
 Ukuran file: 524288 bytes <br/><br/>
 
 #### Revisi
+
 <img width="927" height="51" alt="image" src="https://github.com/user-attachments/assets/d8036832-0992-4602-88e6-09a6ad857ecb" /><br/><br/>
 
 #### No 17
+
 Alice membuat halaman web di node-nya. Eiri memanfaatkan celah untuk mengunduh payload berbahaya ke sistem Alice. Analisis file capture wired_http_c2.pcap untuk mengidentifikasi nama domain (Host) tempat malware diunduh, alamat IP server penyerang, nama file executable malware yang diunduh, serta kode status HTTP yang dikembalikan. <br/><br/>
 
 Isolasi traffic HTTP<br/>
@@ -781,9 +799,11 @@ Folder tujuan: /navi_agent.exe <br/>
 Kode status: 200 <br/><br/>
 
 #### Revisi
+
 <img width="918" height="47" alt="image" src="https://github.com/user-attachments/assets/6aae1bb5-65c8-48d2-b1b6-96863b853ae8" /><br/><br/>
 
 #### No 18
+
 Eiri mengubah taktik penyerangan dengan menanamkan file malware menggunakan protokol file sharing SMB. Analisis file capture wired_smb_transfer.pcapng untuk mengidentifikasi nama protokol jaringan yang dieksploitasi, IP pengirim dan penerima, folder tujuan penyimpanan malware pada sistem korban, serta nama file executable malware yang ditransfer. <br/><br/>
 
 Cek protokol yang dipakai di port 445<br/>
@@ -799,9 +819,11 @@ Folder tujuan: System32 <br/>
 Nama file executable: wired_trojan_payload.exe <br/><br/>
 
 #### Revisi
+
 <img width="922" height="50" alt="image" src="https://github.com/user-attachments/assets/90822b00-2b39-44ee-95a2-b79ba61b3b04" /><br/<br/>
 
-#### No 19 
+#### No 19
+
 Eiri meneror jaringan dengan mengirimkan email pemerasan melalui protokol SMTP tanpa enkripsi. Analisis file capture wired_smtp_threat.pcap pada stream TCP terkait, identifikasi alamat email korban yang ditargetkan, password korban yang diklaim bocor oleh penyerang, jenis malware yang diinfeksikan, batas waktu (dalam hari) yang diberikan, serta MailClientID yang tercantum pada pesan. <br/><br/>
 
 Cek traffic SMTP<br/>
@@ -809,7 +831,7 @@ Cek traffic SMTP<br/>
 Buka Statistic->Conversation->TCP<br/>
 Mengambil IP yang paling mencurigakan & isolasi berdasarkan IP tersebut<br/>
 <img width="1865" height="967" alt="Persempit ke sesi yang mencurigakan" src="https://github.com/user-attachments/assets/3bc718d2-e28b-4fd2-af48-2efe2e545fe2" /><br/>
-ip.addr == 185.234.72.19 && ip.addr == 	203.0.113.100 && smtp <br/>
+ip.addr == 185.234.72.19 && ip.addr == 203.0.113.100 && smtp <br/>
 <img width="1247" height="1015" alt="FIlter IP penyerang" src="https://github.com/user-attachments/assets/4eb94ebd-edd2-4dbd-b0c2-2649be650074" /><br/>
 Didapatkan:<br/>
 Email korban: victim@protocol7.co.jp<br/>
@@ -819,11 +841,12 @@ Batas waktu: 72 hours (3 dyas)<br/>
 MailClientID: 7719980706<br/><br/>
 
 #### Revisi
+
 <img width="920" height="50" alt="image" src="https://github.com/user-attachments/assets/933d3409-45ab-401f-8d84-11c86985fc55" /><br/><br/>
 
 #### No 20
-Untuk rencana pamungkasnya, Eiri menyembunyikan komunikasi malware di balik saluran terenkripsi TLS. Namun Alice telah menyediakan file keylog untuk mendekripsi lalu lintas data tersebut. Analisis file capture wired_tls_decrypt.pcapng bersama keyslogfile.txt untuk mengidentifikasi versi protokol TLS yang dinegosiasikan, nama domain (SNI) yang diakses, alamat IP server HTTPS penyerang, User-Agent yang digunakan, serta HTTP request method dan path yang tersembunyi di dalam sesi dekripsi. <br/><br/>
 
+Untuk rencana pamungkasnya, Eiri menyembunyikan komunikasi malware di balik saluran terenkripsi TLS. Namun Alice telah menyediakan file keylog untuk mendekripsi lalu lintas data tersebut. Analisis file capture wired_tls_decrypt.pcapng bersama keyslogfile.txt untuk mengidentifikasi versi protokol TLS yang dinegosiasikan, nama domain (SNI) yang diakses, alamat IP server HTTPS penyerang, User-Agent yang digunakan, serta HTTP request method dan path yang tersembunyi di dalam sesi dekripsi. <br/><br/>
 
 Cari SNI<br/>
 <img width="985" height="186" alt="Cari SNI" src="https://github.com/user-attachments/assets/cf15651b-60fb-4c8c-a84d-484eeb91d477" /><br/>
@@ -842,15 +865,17 @@ Isolasi request HTTP<br/>
 <img width="1245" height="1011" alt="HTTP Request" src="https://github.com/user-attachments/assets/13e1e583-b5ca-4f65-aeea-b17230993ac3" /><br/><br/>
 Didapatkan<br/>
 
-| Temuan | Teridentifikasi | 
-|---|---|
-| Versi TLS | TLS 1.2 (0x0303) | 
-| SNI/Domain | `example.com` | 
-| IP Server | `93.184.216.34` | 
-| User-Agent | `curl/7.62.0` | 
-| HTTP Method | `HEAD` | 
-| HTTP Path | `HEAD /` | 
+| Temuan      | Teridentifikasi  |
+| ----------- | ---------------- |
+| Versi TLS   | TLS 1.2 (0x0303) |
+| SNI/Domain  | `example.com`    |
+| IP Server   | `93.184.216.34`  |
+| User-Agent  | `curl/7.62.0`    |
+| HTTP Method | `HEAD`           |
+| HTTP Path   | `HEAD /`         |
 
 <br/><br/>
+
 #### Revisi
+
 <img width="920" height="52" alt="image" src="https://github.com/user-attachments/assets/df5b7d34-365e-4712-a2f8-4386d6b5fc13" />
