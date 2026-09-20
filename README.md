@@ -51,6 +51,22 @@ wired_ghost
 
 Karakter yang terkirim dalam paket TCP terpisah karena sesi konsol jarak jauh (seperti Telnet atau SSH) beroperasi dalam Character Mode (Mode Karakter) atau mode interaktif. <br/><br/>
 
+#### Revisi
+Ternyata IP node eiri tertukar dengan node knights <br/>
+Tukar dengan mengedit /etc/network/interfaces<br/>
+Node eiri<br/>
+<img width="722" height="555" alt="image" src="https://github.com/user-attachments/assets/ef63c22d-6ba4-457f-8693-4283ee969622" /><br/>
+Node knights<br/>
+<img width="722" height="555" alt="image" src="https://github.com/user-attachments/assets/8a91edfb-9388-46fb-bc6d-2a8060502478" /><br/>
+Setelah mengedit interfaces, jalankan ini di kedua node tersebut<br/>
+```bash
+ifdown eth0
+ifup eth0
+```
+
+<br/><br/>
+
+
 #### No 12
 Alice mencurigai Knights menjalankan beberapa layanan rahasia di node-nya. Lakukan pemindaian port dari node Alice ke node Knights menggunakan Netcat (nc) untuk memeriksa port 22 (SSH) dan 80 (HTTP) dalam keadaan terbuka, serta port rahasia 7777 dalam keadaan tertutup. Analisis di Wireshark perbedaan TCP Flag yang dikembalikan antara port terbuka (SYN-ACK) dengan port tertutup (RST-ACK).<br/><br/>
 
@@ -88,7 +104,7 @@ Setup SSH di node knights<br/>
 Generate SSH Key dan cek apakah sudah nyala<br/>
 <img width="801" height="201" alt="2  setup ssh" src="https://github.com/user-attachments/assets/8d273af5-1728-42d6-93a4-515c4d1a6fbc" /><br/>
 Menambah user<br/>
-<img width="477" height="102" alt="3  menambah user" src="https://github.com/user-attachments/assets/82de85e7-13d5-40fe-b3dc-4f7673a1f8b5" /><br/>
+<img width="347" height="81" alt="image" src="https://github.com/user-attachments/assets/c58071ba-0799-4090-b7a8-397d2f1933e4" /><br/>
 Verifikasi user tidak locked<br/>
 <img width="477" height="170" alt="4  verifikasi akun tidak locked" src="https://github.com/user-attachments/assets/edd4528b-bee8-4bb1-84ff-8f7dd11ce2e1" /><br/>
 Memasang public key<br/>
@@ -105,12 +121,17 @@ PasswordAuthentication no
 ```
 
 Menjalankan SSHD<br/>
-<img width="477" height="150" alt="7  menjalankan sshd" src="https://github.com/user-attachments/assets/bfb58d1a-9e9d-4393-bc3b-290a07bdb122" /><br/>
+<img width="477" height="190" alt="7  menjalankan sshd" src="https://github.com/user-attachments/assets/bfb58d1a-9e9d-4393-bc3b-290a07bdb122" /><br/>
 Buka wireshark untuk menangkap sesi lalu login dari node mika<br/>
-<img width="477" height="510" alt="8  menjalankan ssh di mika" src="https://github.com/user-attachments/assets/6b69c6fa-c155-4d48-844e-331c7481727b" /><br/><br/>
+<img width="477" height="440" alt="image" src="https://github.com/user-attachments/assets/eb45f11a-f558-46ab-b641-8e42bfbd9234" /><br/><br/>
 
 <img width="1397" height="642" alt="new keys   encrypted packet" src="https://github.com/user-attachments/assets/f8f1889e-0df7-43f5-a31d-53a36dd028be" /><br/>
 Kredensial tidak terlihat jareba SSH menggunakan enkirpsi berbeda dengan Telnet yang dikirim tanpa enkripsi. <br/><br/>
+
+#### Revisi
+Tidak ada, sudah bisa berjalan dengan revisi No 12
+
+<br/><br/>
 
 #### No 14
 Setelah gagal mengakses FTP, Eiri melancarkan serangan brute-force terhadap form login web Alice. Analisis file capture wired_bruteforce.pcapng untuk mengidentifikasi alamat IP penyerang, target IP beserta port yang diserang, password user lain_admin yang berhasil ditembus, serta web server software dan versi yang dilaporkan pada response header. Validasi temuan kalian pada socket server:
