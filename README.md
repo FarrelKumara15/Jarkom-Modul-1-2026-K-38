@@ -1,10 +1,10 @@
 # Jarkom-Modul-1-2026-K-38
 
 ### Anggota :
-|Nama|NRP|
-|---|---|
-|Farrel Arteya Kumara | 5027251020|
-|Nayla Arsha Adyuta | 5027251042|
+|Nama|NRP|Bagian|
+|---|---|---|
+|Farrel Arteya Kumara | 5027251020| 1-10|
+|Nayla Arsha Adyuta | 5027251042| 11-20|
  
 <br/>
 
