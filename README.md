@@ -275,7 +275,7 @@ Mencari ukuran file yang terlibat<br/>
 <img width="1517" height="182" alt="6  Ukuran file knights_payload exe (2)" src="https://github.com/user-attachments/assets/6784a020-29b2-4997-a075-6ec5979198f2" /><br/>
 IP Penyerang: 198.51.100.7 <br/>
 Banner software: vsftpd 3.0.5 <br/>
-Kredensial login penyerang: USER: knights_agent & PASS: N4v1_s3cur3_2026 <br/>
+Kredensial login penyerang: USER: knights_agent / PASS: N4v1_s3cur3_2026 <br/>
 Ukuran file: 524288 bytes <br/><br/>
 
 #### Revisi
@@ -295,7 +295,7 @@ Cari request yang mengunduh file .exe<br/>
 IP pengirim: 203.0.113.42 <br/>
 IP penerima: 10.7.113.42 <br/>
 Folder tujuan: /navi_agent.exe <br/>
-Kode status: 200 OK <br/><br/>
+Kode status: 200 <br/><br/>
 
 #### Revisi
 <img width="918" height="47" alt="image" src="https://github.com/user-attachments/assets/6aae1bb5-65c8-48d2-b1b6-96863b853ae8" /><br/><br/>
@@ -312,7 +312,7 @@ Cari nama file yang ditransfer<br/>
 Protokol Jaringan: SMB2 <br/>
 IP pengirim: 10.7.1.100 <br/>
 IP penerima: 10.7.1.50 <br/>
-Folder tujuan: …\System32\.. <br/>
+Folder tujuan: System32 <br/>
 Nama file executable: wired_trojan_payload.exe <br/><br/>
 
 #### Revisi
@@ -358,15 +358,14 @@ Isolasi record APplication Data & cek tab Decrypted TLS<br/>
 Isolasi request HTTP<br/>
 <img width="1245" height="1011" alt="HTTP Request" src="https://github.com/user-attachments/assets/13e1e583-b5ca-4f65-aeea-b17230993ac3" /><br/><br/>
 Didapatkan<br/>
-| Temuan | Nilai | Bukti dari Filter |
+| Temuan | Nilai | 
 |---|---|---|
-| Versi TLS | TLS 1.2 (0x0303) | Paket #5 |
-| SNI/Domain | `example.com` | Paket #2, #4 |
-| IP Server | `93.184.216.34` | Paket #8 |
-| ALPN | `http/1.1` | Paket #7 |
-| HTTP Method | `HEAD` | Paket #10 |
-| HTTP Path | `/` | Paket #10 |
-| Host Header | `example.com` | Paket #10 |
+| Versi TLS | TLS 1.2 (0x0303) | 
+| SNI/Domain | `example.com` | 
+| IP Server | `93.184.216.34` | 
+| User-Agent | `curl/7.62.0` | 
+| HTTP Method | `HEAD` | 
+| HTTP Path | `HEAD /` | 
 
 <br/><br/>
 #### Revisi
